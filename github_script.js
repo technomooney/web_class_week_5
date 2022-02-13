@@ -38,15 +38,22 @@ analyzeButton.addEventListener('click', function() {
 
 function displayRepositoriesOnPage(githubJson) {
 
-    console.log(githubJson)   // just to show you that the JSON is available here
+    // console.log(githubJson)   // just to show you that the JSON is available here
 
-    // TODO use the JSON to display a list of the user's repositories
-    // TODO can you create a link to that repository at GitHub?
+    // use the JSON to display a list of the user's repositories
+    //  can you create a link to that repository at GitHub?
     //   Hint: you can make a new a element, and set that element's src attribute like this
     //   myNewAElement.src = 'https://whatever.the.url.is'   // in this code, your URL will most likely be a variable
 
+    // found a quick way to remove all children here
+    // https://stackoverflow.com/questions/3955229/remove-all-child-elements-of-a-dom-node-in-javascript
+    while (repoList.firstChild) {
+        repoList.removeChild(repoList.lastChild)
+    }
+    while (repoStats.firstChild) {
+        repoStats.removeChild(repoStats.lastChild)
+    }
     let languageCount = {}
-    let repoListDIV = document.querySelector("#repository-list")
     let listHTMLElement = document.createElement("div")
     let repoStatisticsDIV = document.querySelector("#repository-statistics")
     let repoStatisticsUL = document.createElement("ul")
