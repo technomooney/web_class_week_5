@@ -5,34 +5,48 @@ let usernameInput = document.querySelector('#github-username')
 let statusMessage = document.querySelector('#status-message')
 
 let repoList = document.querySelector('#repository-list')
-// todo - your script will display a list of repositories here
+//  - your script will display a list of repositories here
 let repoStats = document.querySelector('#repository-statistics')
-//todo - your script will display the number of repositories with each programming language
+// - your script will display the number of repositories with each programming language
+let hideToggle = document.querySelectorAll(".hide-toggle")
 
 
 
 
-//TODO Use JavaScript to display list of languages and frequencies
+// Use JavaScript to display list of languages and frequencies
 
 
 analyzeButton.addEventListener('click', function() {
     let username = usernameInput.value
+    let publicRepoCount = null
     let page = 1
     let url = `https://api.github.com/users/${username}/repos?per_page=50&page=${page}`
-    // todo get all repos using pages and process them
-    statusMessage.innerHTML = 'Please wait...'
+    // get all repos using pages and process them
+    statusMessage = document.querySelector('#status-message')
+    statusMessage.outerHTML = '<div id="status-message">Please wait...</div>'
 
     fetch(url)   // make request to URL
         .then(response => response.json())  // extract the JSON from the response
         .then(githubJson => {
-            displayRepositoriesOnPage(githubJson)
+                publicRepoCount = githubJson.length
+                displayRepositoriesOnPage(githubJson)
         })
         .catch(error => {    // handle errors that occur when requesting data or processing the response
             console.log(error)
             alert('Error fetching data from GitHub. Verify you are connected to the internet and the username is correct.')
         })
         .finally( () => {
-            statusMessage.innerHTML = ''  // clear status message. Code in the finally handler always runs, regardless if the request works or failed.
+            // used the user ghost for testing this
+            if (publicRepoCount === 0) {
+                statusMessage = document.querySelector('#status-message')
+                statusMessage.outerHTML = `<h1 id="status-message">${username} has no public repos!</h1>`
+                hideToggle.forEach(item => item.setAttribute("id" ,"hidden"))
+
+            }else {
+                hideToggle.forEach(item => item.removeAttribute("id"))
+                statusMessage = document.querySelector('#status-message')
+                statusMessage.innerHTML = ''  // clear status message. Code in the finally handler always runs, regardless if the request works or failed.
+            }
         })
 })
 
@@ -90,7 +104,7 @@ function displayRepositoriesOnPage(githubJson) {
     repoList.appendChild(listHTMLElement)
     repoStatisticsDIV.appendChild(repoStatisticsUL)
 
-    // TODO what happens if you search for one user, then another user? Clear previous search results before displaying new list of repositorites
+    // what happens if you search for one user, then another user? Clear previous search results before displaying new list of repositorites
 
     // What if the user doesn't have any repositories? Display an appropriate message - you can decide how you'll display this.
 

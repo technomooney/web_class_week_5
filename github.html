@@ -2,7 +2,11 @@
 <html lang="en">
 <head>
     <title>GitHub Repository Analysis</title>
-
+    <style>
+        #hidden {
+            opacity: 0;
+        }
+    </style>
     <!-- Optional - add some styles -->
 </head>
 
@@ -16,11 +20,11 @@
     <button id="analyze">Analyze</button>
 
     <div id="status-message"></div>
-    <h2>Repository Language Statistics</h2>
+    <h2 class="hide-toggle">Repository Language Statistics</h2>
     <div id="repository-statistics">
         <!-- todo - your script will display the number of repositories with each programming language  -->
     </div>
-    <h2>Repository List</h2>
+    <h2 class="hide-toggle">Repository List</h2>
     <div id="repository-list">
         <!-- todo - your script will display a list of repositories here -->
     </div>
